@@ -11,7 +11,6 @@ rule ena_download:
         "<logs>/ena_download/{accession}.log",
     conda:
         "../envs/fastq-dl.yaml"
-    threads: 4
     resources:
         runtime="6h",
     params:
