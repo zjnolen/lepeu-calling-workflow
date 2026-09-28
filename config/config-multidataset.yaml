@@ -1,0 +1,20 @@
+datasets: ["picarus", "pargus", "csemiargus"]
+
+picarus:
+  samples: "config/samples_picarus.tsv"
+  units: "config/units.tsv"
+  reference: "resources/refs/ilPolIcar1.1_genomic.fna"
+pargus:
+  samples: "config/samples_csemiargus.tsv"
+  units: "config/units.tsv"
+  reference: "resources/refs/ilPleArgu1.3_genomic.fna"
+csemiargus:
+  samples: "config/samples_csemiargus.tsv"
+  units: "config/units.tsv"
+  reference: "resources/refs/ilCyaSemi1.1_genomic.fna"
+
+mapping:
+  mappers: ["bwamem2"] # provide mappers in list, will align using each. available currently: bwamem2
+
+calling:
+  callers: ["bcftools-cohort", "bcftools-nohwe"] # perform all listed calling methods; available: bcftools-cohort, bcftools-nohwe
