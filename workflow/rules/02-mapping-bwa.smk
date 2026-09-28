@@ -41,6 +41,6 @@ rule bwa_mem2:
         extra=r"-R '@RG\tID:{unit}.{lib}\tPU:{unit}\tSM:{sample}\tLB:{lib}\tPL:{plat}'",
         sort="samtools",
         sort_order="coordinate",
-        sort_extra="-O cram",
+        sort_extra="",
     wrapper:
         "v9.16.0/bio/bwa-mem2/mem"
