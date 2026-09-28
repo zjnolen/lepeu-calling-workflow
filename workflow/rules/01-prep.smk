@@ -4,9 +4,9 @@ rule ena_download:
     the FASTQ files from NCBI.
     """
     output:
-        temp("<results>/reads/downloaded_fastq/{accession}_1.fastq.gz"),
-        temp("<results>/reads/downloaded_fastq/{accession}_2.fastq.gz"),
-        "<results>/reads/downloaded_fastq/{accession}-run-info.tsv",
+        fq1=temp("<results>/reads/downloaded_fastq/{accession}_1.fastq.gz"),
+        fq2=temp("<results>/reads/downloaded_fastq/{accession}_2.fastq.gz"),
+        info="<results>/reads/downloaded_fastq/{accession}-run-info.tsv",
     log:
         "<logs>/ena_download/{accession}.log",
     conda:
@@ -15,7 +15,7 @@ rule ena_download:
     resources:
         runtime="6h",
     params:
-        outdir="<results>/reads/downloaded_fastq",
+        outdir=lambda w, output: os.path.dirname(output.fq1),
     shell:
         """
         fastq-dl -a {wildcards.accession} --cpus {threads} --provider ena \
