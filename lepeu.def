@@ -1,0 +1,110 @@
+Bootstrap: docker
+From: condaforge/miniforge3:latest
+# Conda environment:
+#   source: https://raw.githubusercontent.com/snakemake/snakemake-wrappers/v7.2.0/bio/bwa-mem2/index/environment.yaml
+#   prefix: /conda-envs/e2329aeb713a45ca91d9f687e0e261e5
+#   channels:
+#     - conda-forge
+#     - bioconda
+#     - nodefaults
+#   dependencies:
+#     - bwa-mem2 =2.3
+# Conda environment:
+#   source: https://raw.githubusercontent.com/snakemake/snakemake-wrappers/v9.15.0/bio/samtools/faidx/environment.yaml
+#   prefix: /conda-envs/1a86c2a0f78783a9eb03691f4157c591
+#   channels:
+#     - conda-forge
+#     - bioconda
+#     - nodefaults
+#   dependencies:
+#     - samtools =1.24
+#     - snakemake-wrapper-utils =0.9.0
+# Conda environment:
+#   source: https://raw.githubusercontent.com/snakemake/snakemake-wrappers/v9.16.0/bio/bwa-mem2/mem/environment.yaml
+#   prefix: /conda-envs/ed512e25094bd3424a6b5b531ff88ff7
+#   channels:
+#     - conda-forge
+#     - bioconda
+#     - nodefaults
+#   dependencies:
+#     - bwa-mem2 =2.3
+#     - samtools =1.24
+#     - picard-slim =3.5.0
+#     - snakemake-wrapper-utils =0.9.0
+# Conda environment:
+#   source: https://raw.githubusercontent.com/snakemake/snakemake-wrappers/v9.16.0/bio/picard/markduplicates/environment.yaml
+#   prefix: /conda-envs/22140cb456a08b1a47aee24fef88e005
+#   channels:
+#     - conda-forge
+#     - bioconda
+#     - nodefaults
+#   dependencies:
+#     - picard =3.5.0
+#     - samtools =1.24
+#     - snakemake-wrapper-utils =0.9.0
+# Conda environment:
+#   source: https://raw.githubusercontent.com/snakemake/snakemake-wrappers/v9.18.0/bio/fastp/environment.yaml
+#   prefix: /conda-envs/3b29d8fdc7cf45edbc7a5fce53a4959d
+#   channels:
+#     - conda-forge
+#     - bioconda
+#     - nodefaults
+#   dependencies:
+#     - fastp =1.3.7
+# Conda environment:
+#   source: workflow/envs/bcftools.yaml
+#   prefix: /conda-envs/0f9802480e8fa982432c7c2dcec0a330
+#   channels:
+#     - conda-forge
+#     - bioconda
+#   dependencies:
+#     - bcftools=1.24
+#     - samtools=1.24
+#     - coreutils
+# Conda environment:
+#   source: workflow/envs/fastq-dl.yaml
+#   prefix: /conda-envs/4d18c07c75b879b0e3c4b7651c4bf9a1
+#   channels:
+#     - conda-forge
+#     - bioconda
+#   dependencies:
+#     - fastq-dl=4.0.1
+#     - coreutils
+
+%labels
+    io.github.snakemake.containerized true
+    io.github.snakemake.conda_env_hash 69357cc1d25a25411065bfbbccf096a8a5a5a280661c035c55332d04522cbc2c
+
+%files
+    workflow/envs/bcftools.yaml /conda-envs/0f9802480e8fa982432c7c2dcec0a330/environment.yaml
+    workflow/envs/fastq-dl.yaml /conda-envs/4d18c07c75b879b0e3c4b7651c4bf9a1/environment.yaml
+
+%post
+    apt-get update
+    apt-get install -y --no-install-recommends curl
+    mkdir -p /conda-envs/e2329aeb713a45ca91d9f687e0e261e5
+    mkdir -p $(dirname /conda-envs/e2329aeb713a45ca91d9f687e0e261e5/environment.yaml)
+    curl -L 'https://raw.githubusercontent.com/snakemake/snakemake-wrappers/v7.2.0/bio/bwa-mem2/index/environment.yaml' > '/conda-envs/e2329aeb713a45ca91d9f687e0e261e5/environment.yaml'
+    mkdir -p /conda-envs/1a86c2a0f78783a9eb03691f4157c591
+    mkdir -p $(dirname /conda-envs/1a86c2a0f78783a9eb03691f4157c591/environment.yaml)
+    curl -L 'https://raw.githubusercontent.com/snakemake/snakemake-wrappers/v9.15.0/bio/samtools/faidx/environment.yaml' > '/conda-envs/1a86c2a0f78783a9eb03691f4157c591/environment.yaml'
+    mkdir -p /conda-envs/ed512e25094bd3424a6b5b531ff88ff7
+    mkdir -p $(dirname /conda-envs/ed512e25094bd3424a6b5b531ff88ff7/environment.yaml)
+    curl -L 'https://raw.githubusercontent.com/snakemake/snakemake-wrappers/v9.16.0/bio/bwa-mem2/mem/environment.yaml' > '/conda-envs/ed512e25094bd3424a6b5b531ff88ff7/environment.yaml'
+    mkdir -p /conda-envs/22140cb456a08b1a47aee24fef88e005
+    mkdir -p $(dirname /conda-envs/22140cb456a08b1a47aee24fef88e005/environment.yaml)
+    curl -L 'https://raw.githubusercontent.com/snakemake/snakemake-wrappers/v9.16.0/bio/picard/markduplicates/environment.yaml' > '/conda-envs/22140cb456a08b1a47aee24fef88e005/environment.yaml'
+    mkdir -p /conda-envs/3b29d8fdc7cf45edbc7a5fce53a4959d
+    mkdir -p $(dirname /conda-envs/3b29d8fdc7cf45edbc7a5fce53a4959d/environment.yaml)
+    curl -L 'https://raw.githubusercontent.com/snakemake/snakemake-wrappers/v9.18.0/bio/fastp/environment.yaml' > '/conda-envs/3b29d8fdc7cf45edbc7a5fce53a4959d/environment.yaml'
+    mkdir -p /conda-envs/0f9802480e8fa982432c7c2dcec0a330
+    mkdir -p /conda-envs/4d18c07c75b879b0e3c4b7651c4bf9a1
+    conda env create --prefix /conda-envs/e2329aeb713a45ca91d9f687e0e261e5 --file /conda-envs/e2329aeb713a45ca91d9f687e0e261e5/environment.yaml
+    conda env create --prefix /conda-envs/1a86c2a0f78783a9eb03691f4157c591 --file /conda-envs/1a86c2a0f78783a9eb03691f4157c591/environment.yaml
+    conda env create --prefix /conda-envs/ed512e25094bd3424a6b5b531ff88ff7 --file /conda-envs/ed512e25094bd3424a6b5b531ff88ff7/environment.yaml
+    conda env create --prefix /conda-envs/22140cb456a08b1a47aee24fef88e005 --file /conda-envs/22140cb456a08b1a47aee24fef88e005/environment.yaml
+    conda env create --prefix /conda-envs/3b29d8fdc7cf45edbc7a5fce53a4959d --file /conda-envs/3b29d8fdc7cf45edbc7a5fce53a4959d/environment.yaml
+    conda env create --prefix /conda-envs/0f9802480e8fa982432c7c2dcec0a330 --file /conda-envs/0f9802480e8fa982432c7c2dcec0a330/environment.yaml
+    conda env create --prefix /conda-envs/4d18c07c75b879b0e3c4b7651c4bf9a1 --file /conda-envs/4d18c07c75b879b0e3c4b7651c4bf9a1/environment.yaml
+    conda clean --all -y
+    rm -rf /var/lib/apt/lists/*

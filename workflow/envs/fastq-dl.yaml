@@ -1,0 +1,6 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - fastq-dl=4.0.1
+  - coreutils

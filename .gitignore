@@ -1,0 +1,7 @@
+.cache
+.conda
+.snakemake
+logs
+results
+resources
+*.sif

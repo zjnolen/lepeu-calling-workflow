@@ -1,0 +1,20 @@
+containerized: "lepeu.sif"
+
+include: "rules/00-common.smk"
+include: "rules/01-prep.smk"
+include: "rules/02-mapping-bwa.smk"
+include: "rules/02-mapping-postprocess.smk"
+include: "rules/03-calling-bcftools.smk"
+
+wildcard_constraints:
+    mapper="bwamem2",
+    caller="bcftools-cohort|bcftools-nohwe",
+    chunk="[0-9]+"
+
+rule all:
+    input:
+        collect(
+            "<results>/bcfs/bcftools-cohort/{mapper}_{caller}.bcf",
+            mapper=config["mapping"]["mappers"],
+            caller=config["calling"]["callers"],
+        ),
