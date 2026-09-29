@@ -6,8 +6,6 @@ pathvars:
   results: "results/picarus"
   logs: "logs/picarus"
 
-mapping:
-  mappers: ["bwamem2"] # provide mappers in list, will align using each. available currently: bwamem2
+mappers: ["bwamem2"] # provide mappers in list, will align using each. available currently: bwamem2
 
-calling:
-  callers: ["bcftools-cohort", "bcftools-nohwe"] # perform all listed calling methods; available: bcftools-cohort, bcftools-nohwe
+callers: ["bcftools-cohort", "bcftools-nohwe"] # perform all listed calling methods; available: bcftools-cohort, bcftools-nohwe

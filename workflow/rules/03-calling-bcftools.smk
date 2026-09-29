@@ -12,19 +12,17 @@ rule bcftools_chunk:
         ref=f"<results>/ref/{genome}",
         fai=f"<results>/ref/{genome}.fai",
     output:
-        bcf=temp(
-            "<results>/bcfs/bcftools-cohort/chunks/{mapper}_{caller}_chunk{chunk}.bcf"
-        ),
+        bcf=temp("<results>/bcfs/{caller}/chunks/{mapper}_{caller}_chunk{chunk}.bcf"),
     conda:
         "../envs/bcftools.yaml"
     threads: 2
     resources:
         runtime="1d",
     params:
-        hwe=lambda w: "-G -" if ({w.caller} == "bcftools-nohwe") else "",
+        hwe=lambda w: "-G -" if f"{w.caller}" == "bcftools-nohwe" else "",
     shell:
         """
-        bcftools mpileup -a "FMT/AD,FMT/DP,INFO/AD" -f {input.ref} -R {input.regs} -Ou \
+        bcftools mpileup -a "FMT/AD,FMT/DP,INFO/AD" -f {input.ref} -R {input.regs} -Ou {input.crams} \
             | bcftools call -m -a GQ,GP {params.hwe} --threads {threads} -Ob >{output.bcf}
         """
 
@@ -32,12 +30,12 @@ rule bcftools_chunk:
 rule bcftools_concat_chunks:
     input:
         bcfs=expand(
-            "<results>/bcfs/bcftools-cohort/chunks/{{mapper}}_{{caller}}_chunk{chunk}.bcf",
+            "<results>/bcfs/{{caller}}/chunks/{{mapper}}_{{caller}}_chunk{chunk}.bcf",
             chunk=chunklist,
         ),
     output:
-        bcf="<results>/bcfs/bcftools-cohort/{mapper}_{caller}.bcf",
-        idx="<results>/bcfs/bcftools-cohort/{mapper}_{caller}.bcf.csi",
+        bcf="<results>/bcfs/{caller}/{mapper}_{caller}.bcf",
+        idx="<results>/bcfs/{caller}/{mapper}_{caller}.bcf.csi",
     conda:
         "../envs/bcftools.yaml"
     threads: 2
