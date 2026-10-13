@@ -5,3 +5,4 @@ logs
 results
 resources
 *.sif
+.parallel
