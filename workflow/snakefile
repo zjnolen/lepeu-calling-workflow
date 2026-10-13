@@ -1,14 +1,16 @@
-containerized: "lepeu.sif"
+containerized: "/lunarc/nobackup/projects/sysbiogrp/zach/working/lepeu-snakemake-devel/lepeu.sif"
 
 include: "rules/00-common.smk"
 include: "rules/01-prep.smk"
 include: "rules/02-mapping-bwa.smk"
 include: "rules/02-mapping-postprocess.smk"
 include: "rules/03-calling-bcftools.smk"
+include: "rules/03-calling-freebayes.smk"
+include: "rules/03-calling-postprocess.smk"
 
 wildcard_constraints:
-    mapper="bwamem2",
-    caller="bcftools-cohort|bcftools-nohwe",
+    mapper="bwamem2|minibwa",
+    caller="bcftools-cohort|bcftools-nohwe|freebayes",
     chunk="[0-9]+"
 
 rule all:

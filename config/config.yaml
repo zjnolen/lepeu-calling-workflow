@@ -1,11 +1,11 @@
-samples: "config/samples.tsv"
+samples: "config/samples_csemiargus.tsv"
 units: "config/units.tsv"
-ref: "resources/refs/GCA_937595015.1_ilPolIcar1.1_genomic.fna"
+ref: "resources/refs/GCA_905187585.1_ilCyaSemi1.1_genomic.fna"
 
 pathvars:
-  results: "results/picarus"
-  logs: "logs/picarus"
+  results: "results/csemiargus"
+  logs: "logs/csemiargus"
 
-mappers: ["bwamem2"] # provide mappers in list, will align using each. available currently: bwamem2
+mappers: ["bwamem2", "minibwa"] # provide mappers in list, will align using each. available currently: bwamem2
 
-callers: ["bcftools-cohort", "bcftools-nohwe"] # perform all listed calling methods; available: bcftools-cohort, bcftools-nohwe
+callers: ["bcftools-cohort", "bcftools-nohwe", "freebayes"] # perform all listed calling methods; available: bcftools-cohort, bcftools-nohwe, freebayes
