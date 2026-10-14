@@ -1,4 +1,4 @@
-containerized: "/lunarc/nobackup/projects/sysbiogrp/zach/working/lepeu-snakemake-devel/lepeu.sif"
+#containerized: "/lunarc/nobackup/projects/lepeu-lisbon/zach_temp/lepeu-snakemake-devel/lepeu.sif"
 
 include: "rules/00-common.smk"
 include: "rules/01-prep.smk"
