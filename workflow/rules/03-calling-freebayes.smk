@@ -17,6 +17,8 @@ rule freebayes_bcf:
         bcf="<results>/bcfs/freebayes/{mapper}_freebayes_raw.bcf",
     log:
         "<logs>/freebayes/{mapper}_freebayes.bcf.log",
+    benchmark:
+        "<benchmarks>/freebayes/{mapper}_freebayes.log"
     threads: 24
     resources:
         runtime="2d",

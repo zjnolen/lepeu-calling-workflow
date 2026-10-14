@@ -6,6 +6,8 @@ rule bcftools_concat_chunks:
         ),
     output:
         bcf="<results>/bcfs/{caller}/{mapper}_{caller}_raw.bcf",
+    benchmark:
+        "<benchmarks>/{caller}_concat/{mapper}_{caller}.log"
     conda:
         "../envs/bcftools.yaml"
     threads: 2
@@ -25,6 +27,8 @@ rule bcftools_normalize:
     output:
         bcf="<results>/bcfs/{caller}/{mapper}_{caller}_raw-normed.bcf",
         idx="<results>/bcfs/{caller}/{mapper}_{caller}_raw-normed.bcf.csi",
+    benchmark:
+        "<benchmarks>/{caller}_normalize/{mapper}_{caller}_normalize.log"
     conda:
         "../envs/bcftools.yaml"
     threads: 2

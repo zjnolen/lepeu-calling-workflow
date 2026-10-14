@@ -15,6 +15,8 @@ rule bcftools_chunk:
         bcf=temp(
             "<results>/bcfs/bcftools-{hwe}/chunks/{mapper}_bcftools-{hwe}_chunk{chunk}.bcf"
         ),
+    benchmark:
+        "<benchmarks>/bcftools-{hwe}_chunk/{mapper}_bcftools-{hwe}_chunk{chunk}.log"
     wildcard_constraints:
         hwe="cohort|nohwe",
     conda:
