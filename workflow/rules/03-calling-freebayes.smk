@@ -1,5 +1,6 @@
 ruleorder: freebayes_bcf > bcftools_concat_chunks
 
+
 rule freebayes_bcf:
     input:
         alns=expand(
@@ -17,9 +18,9 @@ rule freebayes_bcf:
     log:
         "<logs>/freebayes/{mapper}_freebayes.bcf.log",
     threads: 24
-    params:
-        extra="--report-monomorphic --genotype-qualities"
     resources:
-        runtime="2d"
+        runtime="2d",
+    params:
+        extra="--report-monomorphic --genotype-qualities",
     wrapper:
         "v9.18.0/bio/freebayes"
