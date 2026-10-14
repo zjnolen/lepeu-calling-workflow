@@ -3,20 +3,51 @@
 include: "rules/00-common.smk"
 include: "rules/01-prep.smk"
 include: "rules/02-mapping-bwa.smk"
+include: "rules/02-mapping-ngm.smk"
 include: "rules/02-mapping-postprocess.smk"
 include: "rules/03-calling-bcftools.smk"
 include: "rules/03-calling-freebayes.smk"
 include: "rules/03-calling-postprocess.smk"
 
 wildcard_constraints:
-    mapper="bwamem2|minibwa",
+    mapper="bwamem2|minibwa|ngm|ngm-gpu",
     caller="bcftools-cohort|bcftools-nohwe|freebayes",
     chunk="[0-9]+"
 
 rule all:
     input:
         collect(
-            "<results>/bcfs/{caller}/{mapper}_{caller}.bcf",
+            "<results>/bcfs/{caller}/{mapper}_{caller}_raw.bcf",
             mapper=config["mappers"],
             caller=config["callers"],
         ),
+
+rule multiqc:
+    input:
+        collect(
+            [
+                "<results>/bams/qc/riker/{sample}_{mapper}.alignment-metrics.txt",
+                "<results>/bams/qc/riker/{sample}_{mapper}.base-distribution-by-cycle.txt",
+                "<results>/bams/qc/riker/{sample}_{mapper}.isize-histogram.txt",
+                "<results>/bams/qc/riker/{sample}_{mapper}.isize-metrics.txt",
+                "<results>/bams/qc/riker/{sample}_{mapper}.mean-quality-by-cycle.txt",
+                "<results>/bams/qc/riker/{sample}_{mapper}.quality-score-distribution.txt",
+                "<results>/bams/qc/riker/{sample}_{mapper}.gcbias-detail.txt",
+                "<results>/bams/qc/riker/{sample}_{mapper}.gcbias-summary.txt",
+                "<results>/bams/qc/riker/{sample}_{mapper}.wgs-coverage.txt",
+                "<results>/bams/qc/riker/{sample}_{mapper}.wgs-metrics.txt",
+                "<results>/bcfs/{caller}/{mapper}_{caller}_raw-normed.bcf.stats"
+            ],
+            mapper=config["mappers"],
+            caller=config["callers"],
+            sample=samples.index.tolist()
+        ),
+    output:
+        "<results>/qc_report.html"
+    log:
+        "<logs>/multiqc/qc_report.log"
+    params:
+        use_input_files_only=True,
+        extra="--verbose"
+    wrapper:
+        "v9.15.0/bio/multiqc"

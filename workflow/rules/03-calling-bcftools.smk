@@ -1,11 +1,11 @@
 rule bcftools_chunk:
     input:
         crams=expand(
-            "<results>/mapped/dedup/{sample}_{{mapper}}.cram",
+            "<results>/bams/dedup/{sample}_{{mapper}}.cram",
             sample=samples.index.tolist(),
         ),
         crais=expand(
-            "<results>/mapped/dedup/{sample}_{{mapper}}.cram.crai",
+            "<results>/bams/dedup/{sample}_{{mapper}}.cram.crai",
             sample=samples.index.tolist(),
         ),
         regs="<results>/ref/chunks/chunk{chunk}.rf",

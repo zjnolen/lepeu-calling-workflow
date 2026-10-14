@@ -5,10 +5,8 @@ configfile: "config/config-multidataset.yaml"
 rule all:
     input:
         collect(
-            "results/{dataset}/bcfs/{caller}/{mapper}_{caller}.bcf",
+            "results/{dataset}/qc_report.html",
             dataset=config["datasets"],
-            mapper=config["mappers"],
-            caller=config["callers"],
         )
 
 for module_name in config["datasets"]:

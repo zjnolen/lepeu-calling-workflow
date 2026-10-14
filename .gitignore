@@ -6,3 +6,4 @@ results
 resources
 *.sif
 .parallel
+benchmarks

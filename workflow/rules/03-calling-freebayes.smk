@@ -4,17 +4,17 @@ ruleorder: freebayes_bcf > bcftools_concat_chunks
 rule freebayes_bcf:
     input:
         alns=expand(
-            "<results>/mapped/dedup/{sample}_{{mapper}}.cram",
+            "<results>/bams/dedup/{sample}_{{mapper}}.cram",
             sample=samples.index.tolist(),
         ),
         idxs=expand(
-            "<results>/mapped/dedup/{sample}_{{mapper}}.cram.crai",
+            "<results>/bams/dedup/{sample}_{{mapper}}.cram.crai",
             sample=samples.index.tolist(),
         ),
         ref=f"<results>/ref/{genome}",
         fai=f"<results>/ref/{genome}.fai",
     output:
-        bcf=temp("<results>/bcfs/freebayes/{mapper}_freebayes.bcf"),
+        bcf="<results>/bcfs/freebayes/{mapper}_freebayes_raw.bcf",
     log:
         "<logs>/freebayes/{mapper}_freebayes.bcf.log",
     threads: 24
