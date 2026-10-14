@@ -16,7 +16,7 @@ rule bwa_mem2_index:
         "v7.2.0/bio/bwa-mem2/index"
 
 
-rule bwa_mem2:
+rule bwa_mem2_map:
     input:
         reads=[
             "<results>/reads/trimmed/{sample}_{unit}_{lib}_{plat}.1.fastq.gz",
@@ -32,10 +32,10 @@ rule bwa_mem2:
         ),
     output:
         temp("<results>/bams/mapped/{sample}_{unit}_{lib}_{plat}.bwamem2.cram"),
-    benchmark:
-        "<benchmarks>/bwa_mem2/{sample}_{unit}_{lib}_{plat}.log",
     log:
         "<logs>/bwa_mem2/{sample}_{unit}_{lib}_{plat}.log",
+    benchmark:
+        "<benchmarks>/bwa_mem2/{sample}_{unit}_{lib}_{plat}.log"
     threads: 24
     resources:
         runtime="1d",
@@ -58,7 +58,7 @@ rule minibwa_index:
         "../envs/minibwa.yaml"
     threads: 8
     resources:
-        runtime="6h"
+        runtime="6h",
     shell:
         """
         minibwa index -t{threads} {input}
@@ -79,10 +79,10 @@ rule minibwa_map:
         ref=f"<results>/ref/{genome}",
     output:
         temp("<results>/bams/mapped/{sample}_{unit}_{lib}_{plat}.minibwa.cram"),
-    benchmark:
-        "<benchmarks>/minibwa/{sample}_{unit}_{lib}_{plat}.log"
     log:
         "<logs>/minibwa/{sample}_{unit}_{lib}_{plat}.log",
+    benchmark:
+        "<benchmarks>/minibwa/{sample}_{unit}_{lib}_{plat}.log"
     conda:
         "../envs/minibwa.yaml"
     threads: 24
