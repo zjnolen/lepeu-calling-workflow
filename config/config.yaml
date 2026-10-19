@@ -1,0 +1,9 @@
+
+
+samples: "config/samples_picarus.tsv"
+units: "config/units.tsv"
+ref: "resources/refs/GCA_937595015.1_ilPolIcar1.1_genomic.fna"
+
+mappers: ["bwamem2", "minibwa", "ngm"] # provide mappers in list, will align using each. available: bwamem2
+
+callers: ["bcftools-cohort", "bcftools-nohwe", "freebayes"] # perform all listed calling methods; available: bcftools-cohort, bcftools-nohwe, freebayes

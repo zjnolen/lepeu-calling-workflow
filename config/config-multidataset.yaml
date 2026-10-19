@@ -9,7 +9,7 @@ csemiargus:
   units: "config/units.tsv"
   ref: "resources/refs/GCA_905187585.1_ilCyaSemi1.1_genomic.fna"
 pargus:
-  samples: "config/samples_csemiargus.tsv"
+  samples: "config/samples_pargus.tsv"
   units: "config/units.tsv"
   ref: "resources/refs/GCA_905404155.3_ilPleArgu1.3_genomic.fna"
 
