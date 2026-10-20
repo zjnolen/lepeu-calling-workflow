@@ -9,6 +9,7 @@ rule ena_download:
         info="<results>/reads/downloaded_fastq/{accession}-run-info.tsv",
     log:
         "<logs>/ena_download/{accession}.log",
+    retries: 2
     conda:
         "../envs/fastq-dl.yaml"
     resources:
