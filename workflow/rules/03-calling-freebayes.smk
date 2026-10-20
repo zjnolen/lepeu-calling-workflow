@@ -1,6 +1,3 @@
-ruleorder: freebayes_bcf > bcftools_concat_chunks
-
-
 rule freebayes_bcf:
     input:
         alns=expand(
@@ -11,17 +8,18 @@ rule freebayes_bcf:
             "<results>/bams/dedup/{sample}_{{mapper}}.cram.crai",
             sample=samples.index.tolist(),
         ),
+        regions="<results>/ref/chunks/chunk{chunk}.bed",
         ref=f"<results>/ref/{genome}",
         fai=f"<results>/ref/{genome}.fai",
     output:
-        bcf="<results>/bcfs/freebayes/{mapper}_freebayes_raw.bcf",
+        bcf=temp("<results>/bcfs/freebayes/chunks/{mapper}_freebayes_chunk{chunk}.bcf"),
     log:
-        "<logs>/freebayes/{mapper}_freebayes.bcf.log",
+        "<logs>/freebayes/{mapper}_freebayes_chunk{chunk}.bcf.log",
     benchmark:
-        "<benchmarks>/freebayes/{mapper}_freebayes.log"
-    threads: 24
+        "<benchmarks>/freebayes/{mapper}_freebayes_chunk{chunk}.log"
+    threads: 12
     resources:
-        runtime="2d",
+        runtime="3d",
     params:
         extra="--report-monomorphic --genotype-qualities",
     wrapper:

@@ -53,6 +53,21 @@ rule ref_chunking:
         """
 
 
+rule chunks2beds:
+    input:
+        rf="<results>/ref/chunks/chunk{chunk}.rf",
+        fai=f"<results>/ref/{genome}.fai",
+    output:
+        "<results>/ref/chunks/chunk{chunk}.bed",
+    localrule: True
+    resources:
+        runtime="5m",
+    shell:
+        """
+        awk 'BEGIN {{OFS="\t"}} FNR==NR {{chrs[$1]; next}} {{for (c in chrs) if ($1 == c) print $1,0,$2}}' {input.rf} {input.fai} >{output}
+        """
+
+
 rule samtools_faidx:
     input:
         f"<results>/ref/{genome}",
