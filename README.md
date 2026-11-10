@@ -1,5 +1,28 @@
 # LepEU calling workflow
 
+A snakemake workflow for testing various aligners and callers to benchmark
+bioinformatic workflows for processing LepEU data. 
+
+## Deploying
+
+Set up a conda environment with snakemake, snakedeploy, and the executor plugin
+you need (SLURM used as an example):
+
+```bash
+conda create -n lepeu-snakemake -c conda-forge -c bioconda \
+    snakemake snakedeploy snakemake-executor-plugin-slurm
+```
+
+Activate the conda environment `conda activate lepeu-snakemake` and then deploy
+the workflow:
+
+```bash
+snakedeploy deploy-workflow https://github.com/zjnolen/lepeu-calling-workflow . --tag v0.2.0-alpha
+```
+
+You should have the workflow now deployed in `lepeu-calling-workflow`. You can run snakemake
+from inside this directory after configuring your run.
+
 ## Configuration
 
 Here is an example configuration
@@ -47,17 +70,19 @@ the dataset.
 `mappers:` and `callers:` lists all mapping and calling tools to run, all combinations
 of mappers and callers will be run for the dataset.
 
-`samples:` and `units:` point to tab separated tables with the list of samples (and
-optionally a population) and units connects samples to sequencing reads:
+`samples:` and `units:` point to tab separated tables containing the sample data:
 
-`samples.tsv`:
+`samples.tsv` contains one entry per sample (and optionally a population; not currently
+used/required):
 ```text
 sample	population
 csemiargus1	pop1
 csemiargus2	pop1
 ```
 
-`units.tsv`:
+`units.tsv` containes one entry per set of paired end sequencing reads and has the
+associated sample, the platform unite (i.e. lane), library ID, platform (usually
+ILLUMINA), and the SRA run accession to download:
 ```text
 sample	unit	lib	platform	sra
 csemiargus1	unit1	lib1	ILLUMINA	SRR34948887
@@ -65,8 +90,10 @@ csemiargus1	unit1	lib2	ILLUMINA	SRR34948894
 csemiargus2	unit1	lib1	ILLUMINA	SRR34948899
 ```
 
-If a sample has more than one sequencing unit, they will be mapped independently and
-merged.
+If a sample has more than one entry in the units list, the reads will be mapped
+independently and then merged. While samples can appear more than once in this
+file, the combination of sample+unit+lib+platform must be unique per line (see
+above example where csemiargus1 has two lines, with with lib1 and one with lib2).
 
 ## Running
 
@@ -93,6 +120,19 @@ long as the configured value of `dataset` differs between each run in one of the
 wary that the runs don't know about each other, so limits on jobs need to be set with that
 in mind (e.g. if you have a max of 300 concurrent jobs and are running three datasets at once,
 set `--jobs` to 100 in each rather than 300).
+
+### Profiles
+
+This deployment will include a profile configuration to run on LUNARC for our allocation by
+simply running:
+
+```bash
+snakemake --sdm conda --config dataset="csemiargus" --profile profiles/lepeu-lunarc
+```
+
+Feel free to copy this profile to a new folder and edit the config file
+to adapt it to your cluster. Then load it when you run snakemake with the
+same `--profile` option.
 
 ## Notes
 
