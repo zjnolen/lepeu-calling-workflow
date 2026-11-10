@@ -17,11 +17,12 @@ Activate the conda environment `conda activate lepeu-snakemake` and then deploy
 the workflow:
 
 ```bash
-snakedeploy deploy-workflow https://github.com/zjnolen/lepeu-calling-workflow . --tag v0.2.0-alpha
+snakedeploy deploy-workflow https://github.com/zjnolen/lepeu-calling-workflow lepeu-calling-workflow --tag v0.2.0-alpha
 ```
 
-You should have the workflow now deployed in `lepeu-calling-workflow`. You can run snakemake
-from inside this directory after configuring your run.
+You should have the workflow now deployed in `lepeu-calling-workflow` (you can change
+this to another name as you prefer in the command). You can run snakemake from inside
+this directory after configuring your run.
 
 ## Configuration
 
