@@ -1,0 +1,15 @@
+restart-times: 0 # how many times to restart a failed job
+local-cores: 2 # how many cores available outside slurm queue on login node
+jobs: 250 # number of jobs to submit to slurm queue at once (running + queued)
+keep-going: true # keep going past successful steps even if others fail
+cores: 48 # max number of cores to allot to a grouped job (will run in parallel what fits, then serially the rest)
+max-threads: 48 # max threads available to a single job
+max-jobs-per-timespan: "1/1s" # How quickly to submit jobs
+executor: slurm # which executor to use (set to local if running inside one job)
+default-resources:
+  - "mem_mb=(threads*5000)" # lunarc sets memory by threads, so this is a good default; change for your HPC if needed
+  - "runtime=60m" # default run time
+  - "slurm_account=lu2026-2-87" # LepEU's LUNARC account; change for your HPC
+
+# if you need to change resources for certain rules, see snakemakes docs for how to add this here: https://snakemake.readthedocs.io/en/stable/executing/cli.html#profile-yaml-files
+# if you need more SLURM options, look at snakemake slurm plugin: https://snakemake.github.io/snakemake-plugin-catalog/plugins/executor/slurm.html
