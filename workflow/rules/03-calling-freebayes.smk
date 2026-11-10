@@ -17,7 +17,7 @@ rule freebayes_bcf:
         "<logs>/freebayes/{mapper}_freebayes_chunk{chunk}.bcf.log",
     benchmark:
         "<benchmarks>/freebayes/{mapper}_freebayes_chunk{chunk}.log"
-    threads: 12
+    threads: 16
     resources:
         runtime="3d",
     params:

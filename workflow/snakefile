@@ -21,6 +21,7 @@ rule all:
             mapper=config["mappers"],
             caller=config["callers"],
         ),
+        "<results>/qc_report.html"
 
 rule multiqc:
     input:
@@ -36,7 +37,7 @@ rule multiqc:
                 "<results>/bams/qc/riker/{sample}_{mapper}.gcbias-summary.txt",
                 "<results>/bams/qc/riker/{sample}_{mapper}.wgs-coverage.txt",
                 "<results>/bams/qc/riker/{sample}_{mapper}.wgs-metrics.txt",
-                "<results>/bcfs/{caller}/{mapper}_{caller}_raw-normed.bcf.stats"
+                "<results>/bcfs/{caller}/{mapper}_{caller}_raw-normed.bcf.stats",
             ],
             mapper=config["mappers"],
             caller=config["callers"],

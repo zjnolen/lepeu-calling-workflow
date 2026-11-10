@@ -1,9 +1,18 @@
+dataset: "csemiargus" # specify which dataset will be run of the ones later in the config
 
+picarus:
+  samples: "config/samples_picarus.tsv"
+  units: "config/units.tsv"
+  ref: "resources/refs/GCA_937595015.1_ilPolIcar1.1_genomic.fna"
+csemiargus:
+  samples: "config/samples_csemiargus.tsv"
+  units: "config/units.tsv"
+  ref: "resources/refs/GCA_905187585.1_ilCyaSemi1.1_genomic.fna"
+pargus:
+  samples: "config/samples_pargus.tsv"
+  units: "config/units.tsv"
+  ref: "resources/refs/GCA_905404155.3_ilPleArgu1.3_genomic.fna"
 
-samples: "config/samples_picarus.tsv"
-units: "config/units.tsv"
-ref: "resources/refs/GCA_937595015.1_ilPolIcar1.1_genomic.fna"
+mappers: ["bwamem2", "ngm"] # provide mappers in list, will align using each. available: bwamem2
 
-mappers: ["bwamem2", "minibwa", "ngm"] # provide mappers in list, will align using each. available: bwamem2
-
-callers: ["bcftools-cohort", "bcftools-nohwe", "freebayes"] # perform all listed calling methods; available: bcftools-cohort, bcftools-nohwe, freebayes
+callers: ["bcftools-cohort", "bcftools-nohwe", "freebayes", "gatk", "gatk-gpu"] # perform all listed calling methods; available: bcftools-cohort, bcftools-nohwe, freebayes

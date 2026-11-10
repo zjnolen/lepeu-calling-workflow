@@ -9,15 +9,32 @@ min_version("9.27.0")
 configfile: "config/config.yaml"
 
 
-samples = pd.read_table(config["samples"], dtype=str, comment="#").set_index(
+if config["dataset"] not in config:
+    sys.exit(
+        "You have not specified a dataset in the config.yaml file or command line args."
+        "Please specify which dataset in the config this run will be on with the"
+        "`--config dataset=<dataset>` arguement in your snakemake command or with the"
+        '`dataset: "<dataset>"` entry in the config.yaml file.'
+    )
+
+dataset = config["dataset"]
+
+samples = pd.read_table(config[dataset]["samples"], dtype=str, comment="#").set_index(
     "sample", drop=False
 )
 
-units = pd.read_table(config["units"])
+units = pd.read_table(config[dataset]["units"])
 units = units[units["sample"].isin(samples.index.tolist())]
 
 
-genome = os.path.basename(config["ref"])
+genome = os.path.basename(config[dataset]["ref"])
+genome_noext = os.path.splitext(genome)[0]
+
+
+pathvars:
+    results=f"results/{dataset}",
+    logs=f"logs/{dataset}",
+    benchmarks=f"benchmarks/{dataset}",
 
 
 # divide reference genome into chunks for parallelization
@@ -55,7 +72,7 @@ def chunkify(reference_fasta):
     return dfs
 
 
-chunks = chunkify(config["ref"])
+chunks = chunkify(config[dataset]["ref"])
 chunklist = list(range(1, len(chunks) + 1))
 
 

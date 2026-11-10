@@ -25,7 +25,7 @@ rule ena_download:
 
 rule link_genome:
     input:
-        config["ref"],
+        config[dataset]["ref"],
     output:
         protected(f"<results>/ref/{genome}"),
     localrule: True
