@@ -7,15 +7,32 @@ rule markduplicates_bam:
         metrics="<results>/bams/dedup/{sample}_{mapper}.cram.metrics.txt",
     log:
         "<logs>/picard_markdups/{sample}_{mapper}.cram.log",
+    conda:
+        "../envs/picard.yaml"
+    threads: 2
     resources:
         runtime="1d",
     params:
+        input_bams=lambda w, input: list(map("--INPUT {}".format, input.bams)),
         extra="--REMOVE_DUPLICATES true",
-        embed_ref=True,  # set true if the fasta reference should be embedded into the cram
         samtools_opts="--output-fmt-option version=3.0",
-        withmatecigar=False,
-    wrapper:
-        "v9.16.0/bio/picard/markduplicates"
+        sam_threads=lambda wildcards, threads: max(1, threads - 1),
+    shell:
+        """
+        picard MarkDuplicates \
+            -Xmx{resources.mem_mib}M -Djava.io.tmpdir={resources.tmpdir} \
+            {params.extra} \
+            {params.input_bams} \
+            --TMP_DIR {resources.tmpdir} \
+            --OUTPUT /dev/stdout \
+            --METRICS_FILE {output.metrics} \
+            | samtools view {params.samtools_opts} \
+                --threads {params.sam_threads} \
+                --reference {input.ref} \
+                --write-index \
+                -o {output.bam}##idx##{output.idx} \
+                --output-fmt CRAM,embed_ref &>{log}
+        """
 
 
 rule riker_qc:

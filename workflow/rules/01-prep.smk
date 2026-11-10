@@ -84,6 +84,18 @@ rule samtools_faidx:
         "v9.15.0/bio/samtools/faidx"
 
 
+rule create_dict:
+    input:
+        f"<results>/ref/{genome}",
+    output:
+        f"<results>/ref/{genome_noext}.dict",
+    log:
+        f"<logs>/picard/dict/{genome}.log",
+    localrule: True
+    wrapper:
+        "v9.19.3/bio/picard/createsequencedictionary"
+
+
 rule fastp_pe:
     input:
         unpack(get_raw_fastq),

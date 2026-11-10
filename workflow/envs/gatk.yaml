@@ -1,0 +1,9 @@
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - gatk4=4.6.2.0
+  - bcftools=1.24
+  - samtools=1.24
+  - parallel
+  - coreutils

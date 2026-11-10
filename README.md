@@ -93,3 +93,14 @@ long as the configured value of `dataset` differs between each run in one of the
 wary that the runs don't know about each other, so limits on jobs need to be set with that
 in mind (e.g. if you have a max of 300 concurrent jobs and are running three datasets at once,
 set `--jobs` to 100 in each rather than 300).
+
+## Notes
+
+The `gatk-gpu` caller which uses parabricks is somewhat locked down to LUNARC, with code
+that hard codes paths and uses expectations for the node local storage that might make it
+perform poorly on other systems (e.g. that each job has a unique temp folder coded to $TMPDIR).
+This is to put everything into one job and avoid writing intermediate files to the shared disk,
+saving space and time. If running on another system `gatk` is likely the better option, as it
+avoids these hard codes, but it's slower. You can also try adapting the rule to your system if
+you have GPUs available. I will try to make it more adaptable once I better understand
+[this Snakemake feature](https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#auto-grouping-via-temp-files-upon-remote-execution).

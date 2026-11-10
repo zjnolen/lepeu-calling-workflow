@@ -6,12 +6,13 @@ include: "rules/02-mapping-bwa.smk"
 include: "rules/02-mapping-ngm.smk"
 include: "rules/02-mapping-postprocess.smk"
 include: "rules/03-calling-bcftools.smk"
+include: "rules/03-calling-gatk.smk"
 include: "rules/03-calling-freebayes.smk"
 include: "rules/03-calling-postprocess.smk"
 
 wildcard_constraints:
     mapper="bwamem2|minibwa|ngm|ngm-gpu",
-    caller="bcftools-cohort|bcftools-nohwe|freebayes",
+    caller="bcftools-cohort|bcftools-nohwe|freebayes|gatk-gpu|gatk",
     chunk="[0-9]+"
 
 rule all:
