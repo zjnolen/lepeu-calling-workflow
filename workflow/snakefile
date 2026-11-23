@@ -18,7 +18,7 @@ wildcard_constraints:
 rule all:
     input:
         collect(
-            "<results>/bcfs/{caller}/{mapper}_{caller}_raw.bcf",
+            "<results>/bcfs/{caller}/{mapper}_{caller}_raw-normed.bcf",
             mapper=config["mappers"],
             caller=config["callers"],
         ),
