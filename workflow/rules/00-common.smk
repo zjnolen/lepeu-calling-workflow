@@ -3,7 +3,7 @@ import pandas as pd
 import itertools
 import os
 
-min_version("9.27.0")
+min_version("9.0")
 
 
 configfile: "config/config.yaml"
